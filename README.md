@@ -1,11 +1,15 @@
 # Twitter MCP Server (Secure Fork)
 
-> Security-hardened fork of [EnesCinr/twitter-mcp](https://github.com/EnesCinr/twitter-mcp). Fix: removed sensitive tweet content from stderr logs.
+> Security-hardened fork of [EnesCinr/twitter-mcp](https://github.com/EnesCinr/twitter-mcp). Fixes sensitive content leakage in stderr logs.
 
 This MCP server allows Clients to interact with X.com (Twitter).
 
 ## Changes from upstream
-- Security fix: console.error no longer logs tweet content
+- **Core fix**: `console.error` no longer logs tweet content during normal `post_tweet` / `search_tweets` operations
+- **Residual fix**: error handlers sanitized — log only `error.message`, not the full error object (prevents API response payload leakage on errors)
+
+## Security Review
+A full security review identified and closed residual log-leak vectors. See [PR #1](https://github.com/MunhoLau/twitter-mcp-secure/pull/1) for details.
 
 ## Quick Start
 1. Get API keys from [Twitter Developer Portal](https://developer.twitter.com/en/portal/dashboard)

@@ -1,7 +1,7 @@
 {
-  "name": "@enescinar/twitter-mcp",
+  "name": "twitter-mcp-secure",
   "version": "0.2.0",
-  "description": "A Model Context Protocol server allows to interact with Twitter, enabling posting tweets and searching Twitter.",
+  "description": "A security-hardened MCP server for Twitter/X \u2014 fixes sensitive content leakage in logs.",
   "type": "module",
   "main": "build/index.js",
   "bin": {
@@ -21,9 +21,9 @@
     "modelcontextprotocol",
     "server",
     "twitter",
-    "claude"
+    "security"
   ],
-  "author": "Enes Cinar",
+  "author": "MunhoLau",
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "0.6.0",
@@ -38,10 +38,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EnesCinr/twitter-mcp.git"
+    "url": "git+https://github.com/MunhoLau/twitter-mcp-secure.git"
   },
   "bugs": {
-    "url": "https://github.com/EnesCinr/twitter-mcp/issues"
+    "url": "https://github.com/MunhoLau/twitter-mcp-secure/issues"
   },
-  "homepage": "https://github.com/EnesCinr/twitter-mcp#readme"
+  "homepage": "https://github.com/MunhoLau/twitter-mcp-secure#readme"
 }
