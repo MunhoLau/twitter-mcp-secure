@@ -108,7 +108,7 @@ export class TwitterServer {
     // Handle tool execution
     this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const { name, arguments: args } = request.params;
-      console.error(`Tool called: ${name}`, args);
+      console.error(`Tool called: ${name}`);
 
       try {
         switch (name) {
