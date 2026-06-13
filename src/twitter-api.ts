@@ -83,7 +83,7 @@ export class TwitterClient {
     const lastRequest = this.rateLimitMap.get(endpoint);
     if (lastRequest) {
       const timeSinceLastRequest = Date.now() - lastRequest;
-      if (timeSinceLastRequest < 1000) { // Basic rate limiting
+      if (timeSinceLastRequest < 1000) {
         throw new TwitterError(
           'Rate limit exceeded',
           'rate_limit_exceeded',
@@ -99,7 +99,6 @@ export class TwitterClient {
       throw error;
     }
 
-    // Handle twitter-api-v2 errors
     const apiError = error as any;
     if (apiError.code) {
       throw new TwitterError(
@@ -109,8 +108,9 @@ export class TwitterClient {
       );
     }
 
-    // Handle unexpected errors
-    console.error('Unexpected error in Twitter client:', error);
+    // Sanitize: log only error message, not full error (may contain sensitive payload)
+    const message = error instanceof Error ? error.message : String(error);
+    console.error('Twitter client error:', message);
     throw new TwitterError(
       'An unexpected error occurred',
       'internal_error',

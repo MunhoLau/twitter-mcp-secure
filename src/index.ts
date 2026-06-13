@@ -23,7 +23,6 @@ export class TwitterServer {
   private client: TwitterClient;
 
   constructor(config: Config) {
-    // Validate config
     const result = ConfigSchema.safeParse(config);
     if (!result.success) {
       throw new Error(`Invalid configuration: ${result.error.message}`);
@@ -43,24 +42,22 @@ export class TwitterServer {
   }
 
   private setupHandlers(): void {
-    // Error handler
+    // Error handler ??sanitize: log only message, not full error object
     this.server.onerror = (error) => {
-      console.error('[MCP Error]:', error);
+      const msg = error instanceof Error ? error.message : String(error);
+      console.error('[MCP Error]:', msg);
     };
 
-    // Graceful shutdown
     process.on('SIGINT', async () => {
       console.error('Shutting down server...');
       await this.server.close();
       process.exit(0);
     });
 
-    // Register tool handlers
     this.setupToolHandlers();
   }
 
   private setupToolHandlers(): void {
-    // List available tools
     this.server.setRequestHandler(ListToolsRequestSchema, async () => ({
       tools: [
         {
@@ -105,7 +102,6 @@ export class TwitterServer {
       ]
     }));
 
-    // Handle tool execution
     this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const { name, arguments: args } = request.params;
       console.error(`Tool called: ${name}`);
@@ -199,7 +195,9 @@ export class TwitterServer {
       };
     }
 
-    console.error('Unexpected error:', error);
+    // Sanitize: log only error message, not full object
+    const msg = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Unexpected error:', msg);
     throw new McpError(
       ErrorCode.InternalError,
       'An unexpected error occurred'
@@ -213,7 +211,6 @@ export class TwitterServer {
   }
 }
 
-// Start the server
 dotenv.config();
 
 const config = {
@@ -225,6 +222,7 @@ const config = {
 
 const server = new TwitterServer(config);
 server.start().catch(error => {
-  console.error('Failed to start server:', error);
+  const msg = error instanceof Error ? error.message : String(error);
+  console.error('Failed to start server:', msg);
   process.exit(1);
 });
