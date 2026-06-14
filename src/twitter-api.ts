@@ -51,7 +51,7 @@ export class TwitterClient {
         'user.fields': ['username', 'name', 'verified']
       });
 
-      console.error(`Fetched ${response.tweets.length} tweets for query: "${query}"`);
+      console.error(`Fetched ${response.tweets.length} tweets`);
 
       const tweets = response.tweets.map(tweet => ({
         id: tweet.id,
